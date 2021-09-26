@@ -1,19 +1,18 @@
 # vue3-test
 
-## Project setup
-```
-npm install
-```
+Vue3 と Firebase9 を使ったサンプル
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+`src` ディレクトリ内に，以下の形式の`firebase.config`を用意する
 
-### Compiles and minifies for production
-```
-npm run build
-```
+**src/firebase.config**
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+export default {
+  apiKey: "****************",
+  authDomain: "****************",
+  projectId: "****************",
+  storageBucket: "****************",
+  messagingSenderId: "****************",
+  appId: "****************",
+}
+```
