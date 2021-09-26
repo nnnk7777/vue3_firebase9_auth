@@ -1,10 +1,60 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <div v-if="!this.$store.state.userData">
+      <button @click="login()" type="button" name="button" style="button">
+        ログインする
+      </button>
+    </div>
+    <div v-else>
+      <button @click="logout()" type="button" name="button" style="button">
+        ログアウトする
+      </button>
+    </div>
   </div>
-  <router-view/>
+  <router-view />
 </template>
+
+<script>
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "firebase/auth";
+
+export default {
+  methods: {
+    login() {
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth();
+
+      signInWithPopup(auth, provider);
+    },
+    logout() {
+      const auth = getAuth();
+      auth.signOut();
+    },
+  },
+  created() {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.$store.commit("setUser", {
+          name: user.displayName,
+          mail: user.email,
+          image: user.photoURL,
+        });
+        console.log("ログインしました");
+      } else {
+        this.$store.commit("setUser", null);
+        console.log("ログアウトしました");
+      }
+      console.log(this.$store.state.userData);
+    });
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
